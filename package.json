@@ -57,6 +57,9 @@
     "@adonisjs/lucid": "^21.1.0",
     "@swc/cli": "^0.4.0",
     "@vinejs/vine": "^2.1.0",
+    "docx-templates": "^4.13.0",
+    "docxtemplater": "^3.49.1",
+    "easy-template-x": "^4.1.0",
     "luxon": "^3.4.4",
     "pg": "^8.12.0",
     "reflect-metadata": "^0.2.2"
