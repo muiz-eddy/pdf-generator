@@ -9,10 +9,13 @@
 
 import router from '@adonisjs/core/services/router'
 
-const PdfGenController = () => import('#controllers/pdf_gens_controller.ts')
+const pdfGensController = () => import('#controllers/pdf_gens_controller')
 
 router.get('/', async () => {
   return {
     hello: 'worlds',
   }
 })
+
+router.get('/docx-template', [pdfGensController, 'createDocxTemplate'])
+router.get('/docx-template2', [pdfGensController, 'createDocxTemplate2'])

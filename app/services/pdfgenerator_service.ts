@@ -1,9 +1,9 @@
 import Docxtemplater from 'docxtemplater'
 import PizZip from 'pizzip'
-import fs from 'node:fs'
-import path from 'node:path'
-
-import {Template}
+import fs from 'fs'
+import path from 'path'
+import { createReport } from 'docx-templates'
+import { fileURLToPath } from 'url'
 
 export async function docxtemplaterToPdf({
   invoice_number,
@@ -38,7 +38,40 @@ export async function docxtemplaterToPdf({
   return fs.writeFileSync(path.resolve('./', 'output.docx'), buf)
 }
 
-export async function easyTemplateX({
+export async function docxtemplates(placeholders?: documentPlaceHolder): Promise<string> {
+  const __filename = fileURLToPath(import.meta.url)
+  const __dirname = path.dirname(__filename)
+  const templatePath = path.resolve(__dirname, '../../public/assets/input.docx')
+  const outputPath = path.resolve(__dirname, '../../public/assets/document.docx')
+
+  // Read the template file
+  const template = fs.readFileSync(templatePath)
+
+  // Log the placeholders
+  console.log(placeholders)
+
+  try {
+    // Generate the report
+    const report = await createReport({
+      template,
+      data: placeholders,
+      cmdDelimiter: ['{', '}'],
+    })
+
+    // Log the report buffer size to ensure it was created
+    console.log(`Report generated: ${report.length} bytes`)
+
+    // Write the report to a file
+    fs.writeFileSync(outputPath, report)
+
+    return outputPath
+  } catch (error) {
+    console.error('Error generating the DOCX file:', error)
+    throw error
+  }
+}
+
+/* export async function easyTemplateX({
   invoice_number,
   first_name,
   last_name,
@@ -63,4 +96,4 @@ export async function easyTemplateX({
   const doc = await handler.process(content, data)
 
   fs.writeFileSync('output.docx', doc)
-}
+} */
