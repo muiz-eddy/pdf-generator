@@ -1,9 +1,10 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { docxtemplaterToPdf, docxtemplates } from '#services/pdfgenerator_service'
+import { docxtemplates } from '#services/pdfgenerator_service'
 import Subscriber from '#models/subscriber'
+import { helloWorld, conditionalTest, loopTest } from '../data/template_data.js'
 
 export default class PdfGensController {
-  async docxtemplater({ response }: HttpContext) {
+  /* async docxtemplater({ response }: HttpContext) {
     // Take data from database
     const subscriber = Subscriber.query()
     const data = await subscriber.from('subscribers').where('invoice_number', 60000).firstOrFail()
@@ -24,13 +25,12 @@ export default class PdfGensController {
     )
     response.header('Content-disposition', 'attachment; filename=output.docx')
     response.send(outPutFile)
-  }
+  } */
 
   async createDocxTemplate({ response }: HttpContext) {
     // Take data from database
     const subscriber = Subscriber.query()
     const data = await subscriber.from('subscribers').where('invoice_number', 60000).firstOrFail()
-    console.log(data.$attributes.invoice_number)
     try {
       const placeholders = {
         invoice_number: data.$attributes.invoice_number,
@@ -40,26 +40,37 @@ export default class PdfGensController {
         customer_id: data.$attributes.customer_id,
         service_line: data.$attributes.service_line,
       }
-      const outputPath = await docxtemplates(placeholders)
+      const outputPath = await docxtemplates(placeholders, 'input.docx')
       response.download(outputPath)
     } catch (error) {
       response.status(500).send(`${error} Error generating document`)
     }
   }
 
-  async createDocxTemplate2({ response }: HttpContext) {
-    // Take data from database
+  async createDocxTemplate2({ request, response }: HttpContext) {
+    const query = request.qs()
+    let placeholder: any
+    let file: string
+
+    switch (query.exampleType) {
+      case 'hello-world':
+        placeholder = helloWorld
+        file = 'hello-world.docx'
+        break;
+      case 'if-else':
+        placeholder = conditionalTest
+        file = 'conditional.docx'
+        break;
+      case 'loop':
+        placeholder = loopTest
+        file = 'loop.docx'
+        break;
+      default:
+        return response.status(400).send('Invalid exampleType provided');
+    }
 
     try {
-      const placeholders = {
-        invoice_number: 10,
-        first_name: 'test',
-        last_name: 'test',
-        address: 'test',
-        customer_id: 'test',
-        service_line: 'test',
-      }
-      const outputPath = await docxtemplates(placeholders)
+      const outputPath = await docxtemplates(placeholder, file)
       response.download(outputPath)
     } catch (error) {
       response.status(500).send(`${error} Error generating document`)

@@ -39,6 +39,10 @@ export default defineConfig({
       reloadServer: false,
     },
     {
+      pattern: 'templates/**',
+      reloadServer: false,
+    },
+    {
       pattern: 'resources/views/**/*.edge',
       reloadServer: false,
     },
