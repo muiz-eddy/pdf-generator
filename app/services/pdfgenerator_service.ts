@@ -5,14 +5,11 @@ import path from 'node:path'
 import { createReport } from 'docx-templates'
 import { fileURLToPath } from 'node:url'
 
-export async function docxtemplates(
-  placeholders: any,
-  file: string
-): Promise<string> {
+export async function docxtemplates(placeholders: any, file: string): Promise<string> {
   const fileName = fileURLToPath(import.meta.url)
   const dirName = path.dirname(fileName)
   const templatePath = path.resolve(dirName, `../../templates/${file}`)
-  const outputPath = path.resolve(dirName, '../../templates/document.docx')
+  const outputPath = path.resolve(dirName, '../../templates/document.pdf')
 
   // Read the template file
   const template = fs.readFileSync(templatePath)
