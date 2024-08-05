@@ -13,6 +13,8 @@ npm install
 node ace serve
 ``` 
 
+docker:
+
 ``` shell
 docker-compose build
 docker-compose up
