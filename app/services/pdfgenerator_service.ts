@@ -4,12 +4,13 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { createReport } from 'docx-templates'
 import { fileURLToPath } from 'node:url'
+import libre from 'libreoffice-convert'
 
 export async function docxtemplates(placeholders: any, file: string): Promise<string> {
   const fileName = fileURLToPath(import.meta.url)
   const dirName = path.dirname(fileName)
   const templatePath = path.resolve(dirName, `../../templates/${file}`)
-  const outputPath = path.resolve(dirName, '../../templates/document.pdf')
+  const outputPath = path.resolve(dirName, '../../templates/document.docx')
 
   // Read the template file
   const template = fs.readFileSync(templatePath)
@@ -28,11 +29,31 @@ export async function docxtemplates(placeholders: any, file: string): Promise<st
     // Write the report to a file
     fs.writeFileSync(outputPath, report)
 
-    return outputPath
+    const outputPdf =  await docToPdf(outputPath)
+    return outputPdf
   } catch (error) {
     console.error('Error generating the DOCX file:', error)
     throw error
   }
+}
+
+async function docToPdf(file: string): Promise<string> {
+  const fileName = fileURLToPath(import.meta.url)
+  const dirName = path.dirname(fileName)
+  const inputPath = path.resolve(dirName, `${file}`);
+  const outputPath = path.resolve(dirName, '../../templates/document.pdf');
+
+  const docxBuf = fs.readFileSync(inputPath);
+
+  libre.convert(docxBuf,".pdf", undefined,(err,done) => {
+    if (err) {
+      console.log(`Error converting file: ${err}`);
+    }
+
+    fs.writeFileSync(outputPath, done);
+  })
+
+  return outputPath
 }
 
 /* export async function docxtemplaterToPdf({

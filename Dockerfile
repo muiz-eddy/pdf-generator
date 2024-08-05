@@ -1,5 +1,13 @@
 FROM node:20.10.0-alpine as base
 
+# Install LibreOffice and its dependencies
+RUN apk update && \
+    apk add --no-cache \
+    libreoffice \
+    ttf-dejavu \
+    fontconfig \
+    && rm -rf /var/cache/apk/*
+
 # All deps stage
 FROM base as deps
 WORKDIR /app
