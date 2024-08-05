@@ -56,17 +56,17 @@ export default class PdfGensController {
       case 'hello-world':
         placeholder = helloWorld
         file = 'hello-world.docx'
-        break;
+        break
       case 'if-else':
         placeholder = conditionalTest
         file = 'conditional.docx'
-        break;
+        break
       case 'loop':
         placeholder = loopTest
         file = 'loop.docx'
-        break;
+        break
       default:
-        return response.status(400).send('Invalid exampleType provided');
+        return response.status(400).send('Invalid exampleType provided')
     }
 
     try {
