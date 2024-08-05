@@ -1,6 +1,6 @@
-# PDF GENERATOR USING DOCX-TEMPLATE
+# PDF GENERATOR USING DOCX-TEMPLATE 
 
-This is just a repo for researching DOCX content manipulation
+This is just a repo for researching DOCX content manipulation by creating an endpoint.
 
 ## Setup
 
