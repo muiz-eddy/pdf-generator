@@ -24,4 +24,12 @@ docker-compose up
 
 ### Basic Hello world
 
-![hello-world](docs/hello-world.png) ![hello-world-after](docs/hello-world-after.png) 
+![hello-world](docs/hello-world.png) ![hello-world-after](docs/hello-world-after.png)
+
+### Basic If-else
+
+![if-else](docs/if-else.png) ![if-else-after](docs/if-else-after.png)
+
+### Basic Loop + Conditions
+
+![loop](docs/loop.png) ![loop-after](docs/loop-after.png)
