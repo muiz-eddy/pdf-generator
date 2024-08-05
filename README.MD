@@ -32,4 +32,6 @@ docker-compose up
 
 ### Basic Loop + Conditions
 
+** items 2 is not initialized so it is ommitted after processing.
+
 ![loop](docs/loop.png) ![loop-after](docs/loop-after.png)
