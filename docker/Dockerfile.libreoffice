@@ -1,0 +1,8 @@
+# Dockerfile.libreoffice
+FROM debian:latest
+
+# Install LibreOffice
+RUN apt-get update && apt-get install -y libreoffice
+
+# Make LibreOffice accessible to other containers
+ENTRYPOINT ["libreoffice"]

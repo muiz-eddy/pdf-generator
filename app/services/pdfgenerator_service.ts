@@ -5,6 +5,13 @@ import path from 'node:path'
 import { createReport } from 'docx-templates'
 import { fileURLToPath } from 'node:url'
 
+import util from 'node:util'
+import libre from 'libreoffice-convert'
+
+//const convertAsync = util.promisify(libre.convert)
+
+
+
 export async function docxtemplates(
   placeholders: any,
   file: string
@@ -37,6 +44,32 @@ export async function docxtemplates(
     throw error
   }
 }
+
+export async function convertDocxToPdf(inputPath: string): Promise<string> {
+  const ext = '.pdf';
+  const outputPath = path.join(path.dirname(inputPath), `${path.basename(inputPath, '.docx')}.${ext}`);
+
+  // Promisify the libre.convert function
+  const convertAsync = util.promisify(libre.convert);
+
+  try {
+    // Read the input file
+    const docxBuf = await fs.promises.readFile(inputPath);
+
+    // Convert the file
+    const pdfBuf = await convertAsync(docxBuf, ext, undefined);
+
+    // Save the converted PDF
+    await fs.promises.writeFile(outputPath, pdfBuf);
+
+    console.log(`File converted successfully: ${outputPath}`);
+    return outputPath;
+  } catch (err) {
+    console.error(`Error converting file: ${err}`);
+    throw err;
+  }
+}
+
 
 /* export async function docxtemplaterToPdf({
   invoice_number,

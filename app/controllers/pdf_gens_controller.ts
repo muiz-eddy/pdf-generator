@@ -1,5 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { docxtemplates } from '#services/pdfgenerator_service'
+import { docxtemplates, convertDocxToPdf } from '#services/pdfgenerator_service'
 import Subscriber from '#models/subscriber'
 import { helloWorld, conditionalTest, loopTest } from '../data/template_data.js'
 
@@ -70,9 +70,16 @@ export default class PdfGensController {
     }
 
     try {
-      const outputPath = await docxtemplates(placeholder, file)
-      response.download(outputPath)
-    } catch (error) {
+      const docxOutputPath = await docxtemplates(placeholder, file)
+      const pdfOutputPath = await convertDocxToPdf(docxOutputPath)
+      
+      // Send both files as attachments
+      response.attachment(docxOutputPath)
+      response.attachment(pdfOutputPath)
+      
+      // End the response to send the files
+      response.send('')
+    }  catch (error) {
       response.status(500).send(`${error} Error generating document`)
     }
   }

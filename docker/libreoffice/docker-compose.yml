@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  libreoffice:
+    image: debian:latest
+    container_name: libreoffice
+    command: "libreoffice --headless --accept='socket,host=0.0.0.0,port=8100;urp;' --nofirststartwizard"
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    external: true

@@ -19,3 +19,4 @@ router.get('/', async () => {
 
 router.get('/docx-template', [pdfGensController, 'createDocxTemplate'])
 router.get('/docx-template2', [pdfGensController, 'createDocxTemplate2'])
+

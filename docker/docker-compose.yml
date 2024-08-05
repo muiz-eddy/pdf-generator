@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  libreoffice:
+    build:
+      context: .
+      dockerfile: Dockerfile.libreoffice
+    container_name: libreoffice
+    command: "--headless --accept='socket,host=0.0.0.0,port=8100;urp;' --nofirststartwizard"
+
+  node-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    container_name: node-app
+    environment:
+      - LIBREOFFICE_HOST=libreoffice
+      - LIBREOFFICE_PORT=8100
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - libreoffice
