@@ -31,6 +31,8 @@ docker-compose up
 
 ### Basic If-else
 
+** showTable2 is set to false in this case (showTable2 = false)
+
 ![if-else](docs/if-else.png) 
 
 ![if-else-after](docs/if-else-after.png)
