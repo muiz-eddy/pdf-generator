@@ -24,4 +24,4 @@ docker-compose up
 
 ### Basic Hello world
 
-[hello-world]()
+![hello-world]()
