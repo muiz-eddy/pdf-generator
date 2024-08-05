@@ -2,7 +2,7 @@
 
 This is just a repo for researching DOCX content manipulation
 
-## Setup 
+## Setup
 
 Either run with:
 
@@ -11,7 +11,7 @@ npm / node:
 ``` shell
 npm install
 node ace serve
-``` 
+```
 
 docker:
 
@@ -24,7 +24,7 @@ docker-compose up
 
 ### Basic Hello world
 
-![hello-world](docs/hello-world.png) 
+![hello-world](docs/hello-world.png)
 
 ![hello-world-after](docs/hello-world-after.png)
 
@@ -33,7 +33,16 @@ docker-compose up
 
 ** showTable2 is set to false in this case (showTable2 = false)
 
-![if-else](docs/if-else.png) 
+```typescript
+export const conditionalTest = {
+  showRow: true,
+  showTable2: false,
+  showTable3: true,
+  showTable4: true,
+}
+```
+
+![if-else](docs/if-else.png)
 
 ![if-else-after](docs/if-else-after.png)
 
@@ -42,5 +51,16 @@ docker-compose up
 
 ** items 2 is not initialized so it is ommitted after processing.
 
-![loop](docs/loop.png) 
+```typescript
+export const loopTest = {
+  items: [
+    { show: false, value1: 'Header' },
+    { show: true, value1: 'Value 1A', value2: 'Value 1B' },
+    { show: true, value1: 'Value 2A', value2: 'Value 2B' },
+    { show: true, value1: 'Value 3A', value2: 'Value 3B' },
+  ],
+}
+```
+
+![loop](docs/loop.png)
 ![loop-after](docs/loop-after.png)
