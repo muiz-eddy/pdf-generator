@@ -49,7 +49,7 @@ export const conditionalTest = {
 
 ### Basic Loop + Conditions
 
-** items 2 is not initialized so it is ommitted after processing.
+** items 2 is not initialized so it is omitted after processing.
 
 ```typescript
 export const loopTest = {
