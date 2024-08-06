@@ -1,19 +1,21 @@
 import env from '#start/env'
 import app from '@adonisjs/core/services/app'
 import { defineConfig, targets } from '@adonisjs/core/logger'
+import pretty from 'pino-pretty'
 
+
+const prettyStream = pretty({
+  colorize: true, // Colorize the log output
+})
 const loggerConfig = defineConfig({
   default: 'app',
 
-  /**
-   * The loggers object can be used to define multiple loggers.
-   * By default, we configure only one logger (named "app").
-   */
   loggers: {
     app: {
       enabled: true,
       name: env.get('APP_NAME'),
       level: env.get('LOG_LEVEL'),
+      stream: process.env.NODE_ENV === 'development' ? prettyStream : undefined,
       transport: {
         targets: targets()
           .pushIf(!app.inProduction, targets.pretty())

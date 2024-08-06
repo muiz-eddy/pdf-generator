@@ -45,7 +45,6 @@
     "@types/node": "^20.14.9",
     "eslint": "^8.57.0",
     "hot-hook": "^0.2.6",
-    "pino-pretty": "^11.2.1",
     "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
@@ -62,7 +61,9 @@
     "easy-template-x": "^4.1.0",
     "libreoffice-convert": "^1.6.0",
     "luxon": "^3.4.4",
+    "node-fetch": "^3.3.2",
     "pg": "^8.12.0",
+    "pino-pretty": "^11.2.2",
     "pizzip": "^3.1.7",
     "reflect-metadata": "^0.2.2"
   },

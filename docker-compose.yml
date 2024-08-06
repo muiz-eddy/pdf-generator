@@ -1,7 +1,9 @@
 version: '3'
 services:
   adonis:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "${PORT}:${PORT}"
     environment:
@@ -16,10 +18,8 @@ services:
       APP_KEY: ${APP_KEY}
       LOG_LEVEL: ${LOG_LEVEL}
       HOST: ${HOST}
-      LIBREOFFICE_HOST: libreoffice
-      LIBREOFFICE_PORT: 8100
     volumes:
-      - .:/home/node/app:rw
+      - ./app:/usr/src/app
     env_file:
       - .env
     networks:
@@ -38,12 +38,10 @@ services:
     networks:
       - shared-network
 
-
-  libreoffice:
+  python:
     build:
-      context: .
-      dockerfile: Dockerfile.libreoffice
-    container_name: libreoffice
+      context: ./python
+    container_name: python
     networks:
       - shared-network
 

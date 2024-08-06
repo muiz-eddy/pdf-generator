@@ -27,4 +27,3 @@ COPY --from=production-deps /app/node_modules /app/node_modules
 COPY --from=build /app/build /app
 EXPOSE $PORT
 CMD ["node", "./bin/server.js"]
-

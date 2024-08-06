@@ -1,12 +1,9 @@
-# Use Debian as the base image
+# Use a lightweight base image
 FROM debian:latest
 
-# Install LibreOffice
-RUN echo 'deb http://deb.debian.org/debian stable main' > /etc/apt/sources.list && \
-    echo 'deb http://deb.debian.org/debian stable-updates main' >> /etc/apt/sources.list && \
-    echo 'deb http://security.debian.org/debian-security stable-security main' >> /etc/apt/sources.list && \
-    apt-get update --fix-missing && \
-    apt-get install -y libreoffice
+# Install only the necessary parts of LibreOffice
+RUN apt-get update --fix-missing && \
+    apt-get install -y libreoffice-writer
 
-# Run LibreOffice headless service
+# Add the entrypoint for running in headless mode
 ENTRYPOINT ["libreoffice", "--headless", "--accept=socket,host=0.0.0.0,port=8100;urp;", "--nofirststartwizard"]

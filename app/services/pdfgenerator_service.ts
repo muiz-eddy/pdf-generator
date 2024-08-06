@@ -5,8 +5,8 @@ import path from 'node:path'
 import { createReport } from 'docx-templates'
 import { fileURLToPath } from 'node:url'
 
-import util from 'node:util'
-import libre from 'libreoffice-convert'
+import fetch from 'node-fetch'
+
 
 //const convertAsync = util.promisify(libre.convert)
 
@@ -46,27 +46,25 @@ export async function docxtemplates(
 }
 
 export async function convertDocxToPdf(inputPath: string): Promise<string> {
-  const ext = '.pdf';
-  const outputPath = path.join(path.dirname(inputPath), `${path.basename(inputPath, '.docx')}.${ext}`);
-
-  // Promisify the libre.convert function
-  const convertAsync = util.promisify(libre.convert);
+  const outputPath = path.join(path.dirname(inputPath), `${path.basename(inputPath, '.docx')}_${Date.now()}.pdf`);
 
   try {
-    // Read the input file
-    const docxBuf = await fs.promises.readFile(inputPath);
+    const res = await fetch('http://python:5000/convert', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ input_path: inputPath, output_path: outputPath })
+    });
+    
+    const result = await res.json() as { output_path: string; error?: string };
 
-    // Convert the file
-    const pdfBuf = await convertAsync(docxBuf, ext, undefined);
-
-    // Save the converted PDF
-    await fs.promises.writeFile(outputPath, pdfBuf);
-
-    console.log(`File converted successfully: ${outputPath}`);
-    return outputPath;
-  } catch (err) {
-    console.error(`Error converting file: ${err}`);
-    throw err;
+    if (res.ok) {
+      return result.output_path;
+    } else {
+      throw new Error(result.error || 'Unknown error occurred');
+    }
+  } catch (error) {
+    console.error(`Error: ${error instanceof Error ? error.message : String(error)}`);
+    throw new Error('Error converting file');
   }
 }
 
